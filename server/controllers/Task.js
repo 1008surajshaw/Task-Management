@@ -2,7 +2,7 @@ const Task = require('../models/Tasks');
 const User = require("../models/User"); 
 const Team = require('../models/Teams'); 
 const mongoose = require('mongoose');
-const {uploadFileToCloudinary} = require("../utils/imageUploder")
+const {uploadFileToCloudinary, uploadImageToCloudinary} = require("../utils/imageUploder")
 const TaskProgress = require("../models/TaskProgress")
 
 // Controller function to create a task and assign it
@@ -170,7 +170,7 @@ exports.createTaskProgress = async (req, res) => {
       //  console.log(req.body);
 
         const attachedFile = req.files.assignImage;
-      //  console.log(req.files)
+       console.log(req.files)
         //console.log(attachedFile,"attachedFile");
         const tag = JSON.parse(_tag);
 
@@ -195,7 +195,7 @@ exports.createTaskProgress = async (req, res) => {
         // }
 
         // Upload file to Cloudinary
-        const assign = await uploadFileToCloudinary(attachedFile, process.env.FOLDER_NAME);
+        const assign = await uploadImageToCloudinary(attachedFile, process.env.FOLDER_NAME);
         console.log(assign ,"asign valur ha l=kya")
         // Create new TaskProgress
         const newProgress = await TaskProgress.create({
@@ -221,6 +221,7 @@ exports.createTaskProgress = async (req, res) => {
             },
             { new: true }
         );
+        
 
 
         return res.status(201).json({ message: 'TaskProgress created successfully', taskProgress: newProgress });
@@ -228,3 +229,35 @@ exports.createTaskProgress = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 };
+
+exports.getTaskForUser = async (req,res) =>{
+    try{
+       const userId = req.user.id
+       const user = await User.findById(userId)
+                              .populate("taskProgress")
+                              .populate("team")
+                              .populate("task")
+        console.log(user)
+        const teamTasks = [];
+        user.team.forEach((team) => {
+          // Check if tasks are properly populated in each team
+         
+          console.log(team.tasks);
+          teamTasks[team._id] = team.tasks;
+        });
+        
+        const task = user.task
+       
+
+        console.log(teamTasks , "tam task",task)
+        return res.json({
+            success:true,
+            task,
+            teamTasks
+           
+        })
+    }
+    catch(error){
+
+    }
+}

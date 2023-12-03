@@ -1,24 +1,35 @@
+const { default: mongoose } = require('mongoose');
 const Team = require('../models/Teams'); // Import Team model
 const User = require("../models/User")
 exports.createTeam = async (req, res) => {
     try {
+        const userId = req.user.id
         const { name } = req.body;
 
-        const { createdBy } = req.user.id;
-        console.log(createdBy,"create by");
-
+       console.log(req.body)
+        console.log(userId,"create by");
+        const uid = new mongoose.Types.ObjectId(userId)
         // Create a new team
         const newTeam = new Team({
             name,
             members: [], 
             tasks: [], 
-             createdBy,
+            createdBy:uid,
            
         });
+        
 
         // Save the new team
         await newTeam.save();
 
+        await User.findByIdAndUpdate(
+            userId,
+            {
+                $push: { team: newTeam._id }
+            },
+            { new: true }
+        );
+        console.log("ok")
         return res.status(201).json({ message: 'Team created successfully', team: newTeam });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
@@ -28,7 +39,7 @@ exports.createTeam = async (req, res) => {
 exports.addMemberToTeam = async (req, res) => {
     try {
         const { teamId, memberId } = req.body;
-        const userId = req.user._id; 
+        const userId = req.user.id; 
 
         const team = await Team.findById(teamId);
         if (!team) {
@@ -39,7 +50,8 @@ exports.addMemberToTeam = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
+        console.log(team.createdBy,"team is created by")
+        console.log(userId,"userId ha ktn")
         // Verify if the authenticated user is the creator of the team
         if (String(team.createdBy) !== String(userId)) {
             return res.status(403).json({ message: 'Only the team creator can add members' });
@@ -50,7 +62,16 @@ exports.addMemberToTeam = async (req, res) => {
         }
 
         team.members.push(memberId);
+
+        
         await team.save();
+        await User.findByIdAndUpdate(
+            memberId,
+            {
+                $push: { team: teamId }
+            },
+            { new: true }
+        );
 
         
 
