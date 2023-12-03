@@ -1,31 +1,74 @@
-# React & Tailwind CSS Starter Pack
+Prerequisites
+Make sure you have the following installed on your machine:
 
-This is a starter pack for creating React projects with Tailwind CSS configured. It uses React version **18.2** and Tailwind CSS version **3.2**.
+Node.js: Download and Install Node.js
+npm: npm Installation Guide
+MongoDB: Install MongoDB
+Setup Instructions
+Clone the repository to your local machine:
 
-## Usage
+bash
+Copy code
+git clone [repository_url]
+Navigate to the project directory:
 
-This starter pack includes a basic setup for using **Tailwind CSS with React**. To start building your own components and styles, follow these steps:
+bash
+Copy code
+cd [project_directory]
+Initialize the server:
 
-1. Clone the repository to your local machine.
-    ```sh
-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git
-    ```
+bash
+Copy code
+npm init -y
+Navigate to the server directory:
 
-1. Install the required packages.
-    ```sh
-    cd react-tailwind-css-starter-pack
-    npm install
-    ```
+bash
+Copy code
+cd server
+Initialize the server npm package:
 
-1. Start the development server.
-    ```sh
-    npm start
-    ```
-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
+bash
+Copy code
+npm init -y
+Create a .env file in the server directory and add the following content:
 
-The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.
+env
+Copy code
+# Database connection
+PORT=4000
+MONGODB_URL="mongodb://localhost:27017/Task_management"
 
-## Contributing
+# Cloudinary connection
+API_SECRET="your_secret_key"
+API_KEY="your_api_key"
+CLOUD_NAME="your_cloud_name"
+FOLDER_NAME="your_folder_name"
 
-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
+JWT_SECRET="suraj"
+
+# For mail
+MAIL_HOST=smtp.gmail.com
+MAIL_USER=your_email_id
+MAIL_PASS=your_app_password
+Note: Replace placeholders with your actual values.
+
+Navigate back to the root directory:
+
+bash
+Copy code
+cd ..
+Create a .env file in the root directory and add the following content:
+
+env
+Copy code
+REACT_APP_BASE_URL="http://localhost:4000/api/v1"
+Note: Adjust the base URL if needed.
+
+You're all set! Run the following command to start the application:
+
+bash
+Copy code
+npm run dev
+This will start both the server and the React app.
+
+Open your browser and navigate to http://localhost:3000 to view the application.
