@@ -12,7 +12,7 @@ import ForgotPassword from "./page/ForgotPassword";
 import Error from "./page/Error"
 import Start from "./page/Start";
 import VerifyEmail from "./page/VerifyEmail";
-
+import AdminHome from "./components/admin/progress/AdminHome";
 function App() {
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
@@ -29,6 +29,9 @@ function App() {
         <Route path="/dashboard/my-profile" element={<MyProfile/>}/>
         <Route path="/dashboard/team" element={<Team/>}/>
         <Route path="/dashboard/task" element={<Task/>}/>
+     </Route>
+     <Route path="/dashboard/my-pro" element={<AdminHome/>}>
+
      </Route>
      </Routes>
    </div>

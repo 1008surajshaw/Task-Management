@@ -343,10 +343,17 @@ exports.adminSign = async (req,res) =>{
     }
 
     const hashedPassword =await bcrypt.hash(password,10);
+    const profileDetails =await Profile.create({
+        gender:null,
+        dateOfBirth:null,
+        about:null,
+        contactNumber:null,
+    })
     const admin =await Admin.create({
         username,
         email,
-        password:hashedPassword
+        password:hashedPassword,
+        additionalDetails:profileDetails._id,
     })
     return res.status(200).json({
         success:true,

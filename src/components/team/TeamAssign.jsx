@@ -6,17 +6,14 @@ import { fetchtask } from "../../services/operations/taskAPI"
 import TaskSubmition from "../../components/task/TaskSubmition"
 import EmptyData from './EmptyData';
 import TeamForm from './TeamForm';
+import CreateTeam from './CreateTeam';
 const TeamAssign = () => {
     const {token} = useSelector((state) =>state.auth);
-    const BASE_URL =process.env.REACT_APP_BASE_URL
-    const {user} = useSelector((state) => state.profile);
-    const location =useLocation();
+  
     const [task,setTask] = useState([])
-    const [flag,setFlag] = useState(false)
+   
     const [loading ,setLoading] = useState(false)
-    const onSubmit =(taskId) =>{
-
-    }
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -34,30 +31,35 @@ const TeamAssign = () => {
         };
       
         fetchData();
-      }, []);
-      console.log(task)
+      }, [token]);
+      const onSubmit = (taskId) => {
+        setSelectedTaskId(taskId);
+      };
+      console.log(task,"ttttttaaaaaaaaaaaaa")
   return (
-    <div>
-        <div className='bg-richblack-5'>
+    <div className='flex flex-col text-richblack-25 m-3 p-3'>
+        <h1 className='text-2xl '>Select team to contribute to them</h1>
+        <div className='bg-richblack-100 text-richblack-800 text-2xl'>
       {
           task?.map((ele,i)=>(
-            <div key={i} className='text-richblack-5 ' onClick={() => onSubmit(ele?._id)}>
-              {ele?.title}
+            <div key={i} className='text-richblack-900 p-3 cursor-pointer ' onClick={() => onSubmit(ele?._id)}>
+              {ele?.name}
             </div>
           ))
        }
-    </div>
-    <div>
+       </div>
+       {selectedTaskId && <TaskSubmition taskId={selectedTaskId} />}
+    {/* <div>
        <TeamForm />
-    </div>
-     {
+    </div> */}
+     {/* {
       task.length >1 && <TaskSubmition/>
-     }
+     } */}
      {
         task.length === 0 && 
        <EmptyData/>
      }
-
+       {/* <CreateTeam/> */}
     </div>
   )
 }

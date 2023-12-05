@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createTeam } from '../../services/operations/taskAPI';
+import IconBtn from '../common/IconBtn';
+import { VscAdd } from 'react-icons/vsc'
 function TeamForm() {
   const { token } = useSelector((state) => state.auth);
 
   const [teamName, setTeamName] = useState('');
 
   const handleTeamNameChange = (event) => {
-   // setTeamName(event.target.value);
-    setTeamName("abcd")
+    setTeamName(event.target.value);
+    
   };
 
   const handleCreateTeam = async (event) => {
@@ -18,13 +20,14 @@ function TeamForm() {
 
     try {
       const response = await createTeam(teamName, token);
-      console.log(response);
+      console.log(response,"responses");
     } catch (error) {
       console.error('Error creating team:', error);
     }
   };
 
   return (
+    <div className="flex flex-col gap-3">
     <div className='text-richblack-5'>
       <form onSubmit={handleCreateTeam}>
         <label htmlFor="teamName">Team Name:</label>
@@ -36,8 +39,11 @@ function TeamForm() {
           onChange={handleTeamNameChange}
           required
         />
-        <button type="submit">Create Team</button>
+        <IconBtn text="Create Team">
+           <VscAdd className="text-richblack-5" />
+        </IconBtn>
       </form>
+    </div>
     </div>
   );
 }

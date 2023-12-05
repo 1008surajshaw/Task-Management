@@ -7,7 +7,7 @@ import ChipInput from  "./ChipInput"
 import { useForm } from 'react-hook-form'
 import { MdNavigateNext } from "react-icons/md"
 import { SubmitionTask } from '../../services/operations/taskAPI'
-export default function TaskSubmition ()  {
+export default function TaskSubmition ({taskId})  {
     const {
         register,
         handleSubmit,
@@ -23,7 +23,8 @@ export default function TaskSubmition ()  {
 
     const onSubmit = async (data) => {
       
-      data.taskId =  "656abb55793ac9e25a7e7ece";
+      data.taskId = taskId
+      data.tag = JSON.stringify(data.courseTags)
       // data.assignImage = data.assignImage.path
       const result = await SubmitionTask(data, token)
       
@@ -56,9 +57,9 @@ export default function TaskSubmition ()  {
        }
      </div>
 
-      <ChipInput
-        label="tag"
-        name="tag"
+     <ChipInput
+        label="Tags"
+        name="courseTags"
         placeholder="Enter Tags and press Enter"
         register={register}
         errors={errors}
@@ -69,7 +70,7 @@ export default function TaskSubmition ()  {
       {/* Upload file */}
       <Upload
         name="assignImage"
-        label="assignImage"
+        label="Any supporting Images"
         register={register}
         setValue={setValue}
         errors={errors}

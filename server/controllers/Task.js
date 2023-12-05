@@ -2,7 +2,7 @@ const Task = require('../models/Tasks');
 const User = require("../models/User"); 
 const Team = require('../models/Teams'); 
 const mongoose = require('mongoose');
-const {uploadFileToCloudinary, uploadImageToCloudinary} = require("../utils/imageUploder")
+const { uploadImageToCloudinary} = require("../utils/imageUploder")
 const TaskProgress = require("../models/TaskProgress")
 
 // Controller function to create a task and assign it
@@ -44,7 +44,7 @@ exports.createAndAssignTask = async (req, res) => {
        console.log(uid,"uid ha bahi")
 
         // Update assignedTasks for user or team if task was assigned
-        if (assignedToUser !== null) {
+        if (assignedToUser !== "") {
             const user = await User.findByIdAndUpdate(
                 assignedToUser,  // Corrected: Provide the ID directly
                 {
@@ -167,23 +167,21 @@ exports.createTaskProgress = async (req, res) => {
       
         const userId = req.user.id
         const {taskId, progressDetails,tag: _tag} = req.body;
-      //  console.log(req.body);
-
+        
+        console.log(req.body);
+       
+        console.log(userId,"user id hhhaaaaa")
         const attachedFile = req.files.assignImage;
        console.log(req.files)
         //console.log(attachedFile,"attachedFile");
-        const tag = JSON.parse(_tag);
+         const tag = JSON.parse(_tag);
+        // console.log(tag,"taggggg")
 
         // Check if essential fields are present
-        if (!taskId || !userId || !progressDetails || !attachedFile) {
-            return res.status(400).json({
-                success: false,
-                message: 'All Fields are Mandatory',
-            });
-        }
+        
 
         // Fetch user details including teams and tasks
-        const user = await User.findById(userId).populate('team').populate('task');
+        const user = await User.findById({_id:userId}).populate('team').populate('task');
         console.log(user,"userId ha baionrckgnl");
         
         // Verify if the provided taskId matches any of the user's tasks or team's tasks
@@ -238,18 +236,15 @@ exports.getTaskForUser = async (req,res) =>{
                               .populate("team")
                               .populate("task")
         console.log(user)
-        const teamTasks = [];
-        user.team.forEach((team) => {
-          // Check if tasks are properly populated in each team
-         
-          console.log(team.tasks);
-          teamTasks[team._id] = team.tasks;
-        });
         
-        const task = user.task
-       
-
-        console.log(teamTasks , "tam task",task)
+        // user.team.forEach((team) => {
+        //   // Check if tasks are properly populated in each team
+         
+        //   console.log(team.tasks);
+        //   teamTasks[team._id] = team;
+        // });
+        const teamTasks = user.team
+        const task = user.task;
         return res.json({
             success:true,
             task,
@@ -258,6 +253,42 @@ exports.getTaskForUser = async (req,res) =>{
         })
     }
     catch(error){
+
+    }
+}
+
+
+exports.getallUser = async (req,res) =>{
+    try{              
+        const user = await User.find({})
+        return res.status(200).json({user})
+    }
+    catch(error){
+        return res.status(500).json({ message: 'Internal server error', error: error.message });
+
+    }
+    
+
+}
+
+exports.allTask = async (req,res) =>{
+
+    try {
+      const task = await Task.find({});
+      return res.status(200).json({task})
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error', error: error.message });
+    }
+}
+
+exports.allTeam = async (req,res) =>{
+    try{
+       const team = await Team.find({});
+        return res.status(200).json({team})
+
+    }
+    catch(error){
+        return res.status(500).json({ message: 'Internal server error', error: error.message });
 
     }
 }

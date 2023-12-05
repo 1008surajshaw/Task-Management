@@ -1,10 +1,15 @@
 const { default: mongoose } = require('mongoose');
 const Team = require('../models/Teams'); // Import Team model
-const User = require("../models/User")
+const User = require("../models/User");
+const Admin = require('../models/Admin');
 exports.createTeam = async (req, res) => {
     try {
         const userId = req.user.id
         const { name } = req.body;
+        const admin = await Admin.findById(userId)
+        if(!admin){
+            return res.status(404).json({ message: 'This route is for admin' });
+        }
 
        console.log(req.body)
         console.log(userId,"create by");
@@ -22,13 +27,6 @@ exports.createTeam = async (req, res) => {
         // Save the new team
         await newTeam.save();
 
-        await User.findByIdAndUpdate(
-            userId,
-            {
-                $push: { team: newTeam._id }
-            },
-            { new: true }
-        );
         console.log("ok")
         return res.status(201).json({ message: 'Team created successfully', team: newTeam });
     } catch (error) {
@@ -38,9 +36,14 @@ exports.createTeam = async (req, res) => {
 
 exports.addMemberToTeam = async (req, res) => {
     try {
+
         const { teamId, memberId } = req.body;
         const userId = req.user.id; 
-
+        console.log(teamId,"ttt",memberId,"mmm",userId)
+        const admin = await Admin.findById(userId)
+        if(!admin){
+            return res.status(404).json({ message: 'This route is for admin' });
+        }
         const team = await Team.findById(teamId);
         if (!team) {
             return res.status(404).json({ message: 'Team not found' });
@@ -50,12 +53,7 @@ exports.addMemberToTeam = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        console.log(team.createdBy,"team is created by")
-        console.log(userId,"userId ha ktn")
-        // Verify if the authenticated user is the creator of the team
-        if (String(team.createdBy) !== String(userId)) {
-            return res.status(403).json({ message: 'Only the team creator can add members' });
-        }
+       
 
         if (team.members.includes(memberId)) {
             return res.status(400).json({ message: 'User is already a member of the team' });
@@ -84,7 +82,13 @@ exports.addMemberToTeam = async (req, res) => {
 exports.removeMemberFromTeam = async (req, res) => {
     try {
         const { teamId, memberId } = req.body;
-        const userId = req.user._id; 
+        const userId = req.user.id; 
+        console.log("one")
+        const admin = await Admin.findById(userId)
+        if(!admin){
+            return res.status(404).json({ message: 'This route is for admin' });
+        }
+        console.log(admin)
 
         const team = await Team.findById(teamId);
         if (!team) {
@@ -95,22 +99,25 @@ exports.removeMemberFromTeam = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
-        // Verify if the authenticated user is the creator of the team
-        if (String(team.createdBy) !== String(userId)) {
-            return res.status(403).json({ message: 'Only the team creator can remove members' });
-        }
-
         if (!team.members.includes(memberId)) {
             return res.status(400).json({ message: 'User is not a member of the team' });
         }
-
+        console.log("two")
         const memberIndex = team.members.indexOf(memberId);
         if (memberIndex > -1) {
             team.members.splice(memberIndex, 1);
         }
 
         await team.save();
+        await User.findByIdAndUpdate(
+            memberId,
+            {
+                $pull: { team: teamId }
+            },
+            { new: true }
+        );
+
+
 
         // Additional logic if needed (e.g., updating tasks when a member is removed)
 

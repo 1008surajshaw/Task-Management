@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			ref: "Profile",
 		},
+        type: {
+            type: String,
+            default: 'user' // Set the default value to 'admin'
+          }
 
     },
     { timestamps: true }
