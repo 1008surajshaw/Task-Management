@@ -206,3 +206,22 @@ export function sendotp(email, navigate) {
   //     toast.dismiss(toastId)
   //   }
   // }
+
+
+  export function logedout() {
+    return async (dispatch) => {
+    try{
+      dispatch(setToken(null))
+      dispatch(setUser(null))
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      toast.success("Logged Out")
+      console.log("Done")
+    }
+     catch(error){
+      console.log("error")
+     }
+     
+    }
+    
+  }
