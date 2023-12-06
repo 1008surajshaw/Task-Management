@@ -21,12 +21,15 @@ database.connect();
 // app.use(bodyparser.json())
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(
     cors({
-        origin:"*",
-        credentials:true,
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true,
     })
-)
+);
+
 app.use(
     fileUpload({
         useTempFiles:true,
