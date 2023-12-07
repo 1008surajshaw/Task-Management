@@ -13,7 +13,7 @@ const Task = () => {
           </h1>
           <IconBtn
             text="My Task"
-            onclick={() => navigate("/my-task")}
+            onclick={() => navigate("/dashboard/completedtasks")}
          >
             <VscAdd className="text-richblack-5" />
          </IconBtn>

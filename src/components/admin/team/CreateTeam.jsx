@@ -6,7 +6,7 @@ import { VscAdd } from 'react-icons/vsc';
 import AllTeam from './AllTeam';
 import AddUserTeam from './AddUserTeam';
 
-const CreateTeam = () => {
+const CreateTeam = ({ onCreateTeam }) => {
   const { token } = useSelector((state) => state.auth);
   const [teamName, setTeamName] = useState('');
   const [showTeams, setShowTeams] = useState(false);
@@ -22,6 +22,8 @@ const CreateTeam = () => {
 
     try {
       const response = await createTeam(teamName, token);
+      onCreateTeam();
+      
     } catch (error) {
       console.error('Error creating team:', error);
     }

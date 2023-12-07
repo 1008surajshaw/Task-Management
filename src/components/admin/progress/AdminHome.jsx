@@ -3,6 +3,7 @@ import AddUserTeam from '../team/AddUserTeam';
 import { logedout, logout } from '../../../services/operations/authAPI';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Allprogres from './Allprogres';
 
 const AdminHome = () => {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ const AdminHome = () => {
       <button className='bg-red-500 text-white p-2 mt-4 rounded' onClick={handleLogout}>
         Logout
       </button>
+
+      <Allprogres/>
     </div>
   );
 };

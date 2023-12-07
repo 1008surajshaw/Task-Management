@@ -6,7 +6,7 @@ import Template from "../components/auth/Template"
     <Template
     title="welcome back"
     formType="login"
-    description1="Build skills for today, tomorrow, and beyond."
+    description1="Add task create team ."
     description2="Education to future-proof your career."
     image={loginImg}
     />

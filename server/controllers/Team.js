@@ -41,6 +41,7 @@ exports.addMemberToTeam = async (req, res) => {
         const userId = req.user.id; 
         console.log(teamId,"ttt",memberId,"mmm",userId)
         const admin = await Admin.findById(userId)
+        console.log(admin)
         if(!admin){
             return res.status(404).json({ message: 'This route is for admin' });
         }

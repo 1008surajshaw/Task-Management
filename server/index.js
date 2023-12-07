@@ -7,6 +7,7 @@ const { cloudinaryConnect } =require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 
+const profileRouter = require("./routers/Profile")
 const userRoutes = require("./routers/User")
 const teamRoutes = require('./routers/Team')
 const taskRoutes = require('./routers/Task')
@@ -41,6 +42,7 @@ cloudinaryConnect();
 app.use("/api/v1/auth",userRoutes)
 app.use("/api/v1/team",teamRoutes)
 app.use("/api/v1/task",taskRoutes)
+app.use("/api/v1/profile",profileRouter)
 
 
 

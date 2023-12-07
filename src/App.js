@@ -13,6 +13,8 @@ import Error from "./page/Error"
 import Start from "./page/Start";
 import VerifyEmail from "./page/VerifyEmail";
 import AdminHome from "./components/admin/progress/AdminHome";
+import Settings from "./components/common/Settings";
+import Mytask from "./components/task/Mytask";
 function App() {
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
@@ -26,6 +28,8 @@ function App() {
      <Route path="*" element={<Error />} />
      <Route path="update-password/:id" element={<UpdatePassword/>}/>
      <Route  element={<Home/>}>
+        <Route path="/dashboard/completedtasks" element={<Mytask/>}/>
+        <Route path="/dashboard/Settings" element={<Settings />} />
         <Route path="/dashboard/my-profile" element={<MyProfile/>}/>
         <Route path="/dashboard/team" element={<Team/>}/>
         <Route path="/dashboard/task" element={<Task/>}/>

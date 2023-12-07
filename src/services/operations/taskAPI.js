@@ -19,7 +19,7 @@ export const fetchtask = async (token)=>{
         }
       )
 
-      console.log(response.data,"respo")
+      console.log(response,"respo")
       
      result = response
      return result
@@ -53,13 +53,13 @@ export const SubmitionTask = async (data,token) => {
                        Authorization: `${token}`,
                      })
                       console.log(
-                        "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
+                        "MARK_TASK_AS_COMPLETE_API API RESPONSE............",
                         res
                       )
-                      toast.success("Lecture Completed")
+                      toast.success("Task Completed")
     }
     catch(error){
-      console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
+      console.log("MARK_TASK_AS_COMPLETE_API API ERROR............", error)
         toast.error(error.message)
     }
   
@@ -189,3 +189,18 @@ export const createaAssign = async (data,token) =>{
     
 //   }
 // }
+
+
+export const allprogress = async () =>{
+  try{
+    console.log("One")
+    const resp = await apiConnector("GET",BASE_URL+'/task/allprogress',null);
+    console.log("two")
+    console.log(resp,"resp of task")
+    return resp.data.result;
+
+  }
+  catch(error){
+   console.log(error)
+  }
+}

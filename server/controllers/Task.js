@@ -143,17 +143,11 @@ exports.deleteTask = async (req, res) => {
 
 exports.getAllTasksWithAssignees = async (req, res) => {
     try {
-        const tasks = await Task.find({},{
-                                         title:true,
-                                         description:true,
-                                         dueDate:true,                                                       
-                                        })
-                                        .populate('assignedTo')
-                                        .populate('team')
-                                        .exec()
-
+        const tasks = await TaskProgress.find({})
+        const result = tasks;                         
+        console.log(result,"task are hereeeeeee")
         // tasks will contain all tasks along with assigned user/team information
-        return res.status(200).json({ tasks });
+        return res.status(200).json({ result });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
     }
@@ -219,7 +213,15 @@ exports.createTaskProgress = async (req, res) => {
             },
             { new: true }
         );
-        
+        await User.findByIdAndUpdate(
+            {_id:userId},
+            {
+                $push :{
+                    taskProgress:newProgress._id,
+                }
+            },
+            {new:true}
+        )
 
 
         return res.status(201).json({ message: 'TaskProgress created successfully', taskProgress: newProgress });
@@ -233,9 +235,14 @@ exports.getTaskForUser = async (req,res) =>{
        const userId = req.user.id
        const user = await User.findById(userId)
                               .populate("taskProgress")
-                              .populate("team")
+                              .populate({
+                                path:"team",
+                                populate:{
+                                    path:"tasks"
+                                }
+                              })
                               .populate("task")
-        console.log(user)
+        console.log(user,"userData")
         
         // user.team.forEach((team) => {
         //   // Check if tasks are properly populated in each team
@@ -244,6 +251,7 @@ exports.getTaskForUser = async (req,res) =>{
         //   teamTasks[team._id] = team;
         // });
         const teamTasks = user.team
+        console.log(teamTasks,"team ka kya task ha")
         const task = user.task;
         return res.json({
             success:true,

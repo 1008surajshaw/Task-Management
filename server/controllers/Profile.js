@@ -125,21 +125,7 @@ exports.updateDisplayPicture = async (req, res) => {
   }
 };
 
-exports.getAssignTasks = async (req,res) =>{
-    try{
-        const userId = req.user.id;
-        let userDetails = await User.findById(userId)
-                            .populate("taskProgress")
-                            .populate({path:"team",
-                              populate :{
 
-                            }})
-    }
-    catch(error){
-
-    }
-
-}
 
 
 

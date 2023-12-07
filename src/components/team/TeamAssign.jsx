@@ -44,6 +44,10 @@ const TeamAssign = () => {
           task?.map((ele,i)=>(
             <div key={i} className='text-richblack-900 p-3 cursor-pointer ' onClick={() => onSubmit(ele?._id)}>
               {ele?.name}
+              {/* <p>Description: {ele?.tasks?[0].description}</p> */}
+              {/* <p>Due Date: {new Date(ele?.tasks[0].dueDate).toLocaleDateString()}</p> */}
+              <p>Assigned To: {ele?.tasks?.assignedTo}</p>
+              <p>Completed: {ele?.completed ? 'Yes' : 'No'}</p>
             </div>
           ))
        }

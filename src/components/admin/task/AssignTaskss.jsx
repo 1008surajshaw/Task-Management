@@ -28,21 +28,22 @@ const AssignTaskss = (props) => {
 
     // Conditionally set assignedTo and team based on the selected option
     if (selectedOption === 'User') {
-      data.assignedTo = userId;
-      data.team = '';
+      data.assignedToUser = userId;
+      data.assignedToTeam = '';
     } else if (selectedOption === 'Team') {
-      data.team = teamId;
-      data.assignedTo = '';
+      data.assignedToTeam = teamId;
+      data.assignedToUser = '';
     }
     else{
-      data.assignedTo = userId;
-      data.team = '';
+      data.assignedToUser = userId;
+      data.assignedToTeam = '';
     }
 
     
     try {
-      
+    console.log(data,"data kya ha bha")  
     const resp = await createaAssign(data,token);
+    
       if(!resp){
         console.log("not done")
       }

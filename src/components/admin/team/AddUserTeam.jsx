@@ -26,7 +26,12 @@ const AddUserTeam = () => {
   }, []);
 
   const handleCardClick = (userId) => {
-    setSelectedUserId(userId);
+    if (selectedUserId === userId) {
+      // If the clicked user is already selected, set selectedUserId to null
+      setSelectedUserId(null);
+    } else {
+      setSelectedUserId(userId);
+    }
   };
 
   return (
