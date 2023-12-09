@@ -33,12 +33,12 @@ const TodoTask = () => {
   return (
     <div className='flex flex-col text-richblack-25'>
       <h1 className=''>To submit your response, click on the task you want to submit</h1>
-      <div className='flex flex-row justify-between'>
-        <div className='bg-richblack-5'>
+      <div className='flex flex-row justify-between mt-5'>
+        <div className='flex flex-col text-center mx-auto'>
           {/* Completed tasks */}
-          <h1 className='text-richblack-900 font-extrabold text-2xl'>Tasks which are not completed</h1>
+          <h1 className='text-richblack-5 font-extrabold text-4xl'>Tasks which are not completed</h1>
           {uncomplete.length === 0 ? (
-            <p className='text-richblack-5 font-extrabold text-2xl'>You don't have any pending work.</p>
+            <p className='text-richblack-5 font-bold text-1xl mt-8'>You don't have any pending work.</p>
           ) : (
             uncomplete.map((ele, i) => (
               <div key={i} className='pt-4 m-3 text-richblack-800 cursor-pointer border p-3 transition duration-300 ease-in-out transform hover:bg-gray-100 hover:border-gray-300' onClick={() => onSubmit(ele?._id)}>

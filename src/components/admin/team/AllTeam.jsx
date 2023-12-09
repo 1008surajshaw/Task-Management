@@ -44,8 +44,8 @@ const AllTeam = ({ userId }) => {
   };
   
   return (
-    <div className="container mx-auto">
-    <h1 className="text-3xl font-bold text-richblack-800">Team</h1>
+    <div className="container mx-auto mt-4 p-5">
+    <h1 className="text-3xl font-bold text-richblack-5 mb-6">Search for Team</h1>
     {loading ? (
       <p>Loading...</p>
     ) : (

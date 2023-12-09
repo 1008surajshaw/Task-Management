@@ -35,8 +35,8 @@ const AddUserTeam = () => {
   };
 
   return (
-    <div className="container mx-auto flex flex-col">
-      <h1 className="text-3xl font-bold text-richblack-800">Search for User</h1>
+    <div className="container mx-auto flex flex-col m-4 p-5 ">
+      <h1 className="text-3xl font-bold text-richblack-5 mb-4 p-4">Search for User</h1>
 
       <div className="flex flex-wrap gap-4 mt-4">
         {users.map((user) => (

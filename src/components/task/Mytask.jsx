@@ -24,16 +24,18 @@ const Mytask = () => {
   }, []);
 
   return (
-    <div className='flex flex-col text-richblack-25'>
-      <h1 className=''>These are the tasks you have submitted in the past</h1>
+    <div className='flex flex-col '>
+      <h1 className='text-richblack-900'>These are the tasks you have submitted in the past</h1>
       <div className='flex flex-row justify-between'>
-        <div className='bg-richblack-5'>
-          <h1 className='text-richblack-900 font-extrabold text-2xl'>Tasks which are completed</h1>
+        <div className=''>
+          <h1 className='text-richblack-5
+          
+           font-extrabold text-2xl'>Tasks which are completed</h1>
           {/* Completed tasks */}
           {uncomplete?.map((ele, i) => (
             <div
               key={i}
-              className='pt-4 m-3 text-richblack-800 cursor-pointer border p-3 transition duration-300 ease-in-out transform hover:bg-gray-100 hover:border-gray-300'
+              className='pt-4 m-3 text-richblack-5 cursor-pointer border p-3 transition duration-300 ease-in-out transform hover:bg-gray-100 hover:border-gray-300'
             >
               <p>Title: {ele?.title}</p>
               <p>Description: {ele?.description}</p>

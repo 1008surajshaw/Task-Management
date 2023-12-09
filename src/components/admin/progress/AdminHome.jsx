@@ -4,6 +4,9 @@ import { logedout, logout } from '../../../services/operations/authAPI';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Allprogres from './Allprogres';
+import IconBtn from '../../common/IconBtn';
+import { VscAdd } from 'react-icons/vsc'
+
 
 const AdminHome = () => {
   const navigate = useNavigate();
@@ -25,19 +28,20 @@ const AdminHome = () => {
   };
 
   return (
-    <div className='text-richblack-5 flex flex-col mx-auto justify-center text-center'>
+    <div className='text-richblack-5 flex flex-col mx-auto justify-center text-center mt-5 pt-4'>
       <h1 className='text-5xl text-richblack-5 mx-auto'>Welcome Admin, check here for updates</h1>
 
       <AddUserTeam />
 
       {/* Your other components go here */}
-      
-      {/* Logout button */}
-      <button className='bg-red-500 text-white p-2 mt-4 rounded' onClick={handleLogout}>
-        Logout
-      </button>
-
       <Allprogres/>
+
+      {/* Logout button */}
+      <div className='lg:w-[5%] flex justify-center mx-auto mb-4 mt-4'>  
+      <IconBtn text="Logout" onclick={handleLogout}>
+        <VscAdd className="text-richblack-5" />
+      </IconBtn>
+      </div>
     </div>
   );
 };
